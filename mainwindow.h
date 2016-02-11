@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDir>
+#include <QFileDialog>
+#include <QDebug>
+#include <QRegExp>
 
 namespace Ui {
 class MainWindow;
@@ -15,8 +19,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
+    void getSubfolders(QString path);
 };
 
 #endif // MAINWINDOW_H
