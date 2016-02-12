@@ -25,6 +25,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
     void getSubfolders(QString path);
+    QStringList getFiles(QString path, QRegExp re);
 };
 
 #endif // MAINWINDOW_H

@@ -10,8 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->tableWidget->setColumnCount(5);
-    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "Папка" << "Портреты" << "Репортаж" << "Учителя" <<"Стоимость");
 }
 
 MainWindow::~MainWindow()
@@ -21,7 +19,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString path = QFileDialog::getExistingDirectory(this,"Папка со съмками");
+    QString path = QFileDialog::getExistingDirectory(this,"Папка со съемками");
+    ui->tableWidget->clear();
+    ui->tableWidget->setColumnCount(5);
+    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "Папка" << "Портреты" << "Репортаж" << "Учителя" <<"Стоимость");
     getSubfolders(path);
 }
 
@@ -36,20 +37,45 @@ void MainWindow::getSubfolders(QString path)
     qDebug() << subfoldersCount;
     QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     int i=0;
+    int summ=0;
     foreach (QString subfolder, subfolders) {
-        QDir subdir(path+"/"+subfolder);
+        QString subdir(path+"/"+subfolder);
         ui->tableWidget->setItem(i,0,new QTableWidgetItem(subfolder));
         qDebug() << subdir.count()-2;
-        QStringList files = subdir.entryList(QDir::Files | QDir::NoDotAndDotDot);
-        int p=0,t=0,r=0;
-        foreach (QString file, files) {
-            if (report.exactMatch(file))r++;
-            else if (portrait.exactMatch(file))p++;
-            else if (teacher.exactMatch(file))t++;
-        }
+        QStringList portraits = getFiles(path+"/"+subfolder,portrait);
+        QStringList teachers = getFiles(path+"/"+subfolder,teacher);
+        QStringList reports = getFiles(path+"/"+subfolder,report);
+        int p = portraits.count();
+        int r = reports.count();
+        int t = teachers.count();
         ui->tableWidget->setItem(i,1,new QTableWidgetItem(QString::number(p)));
         ui->tableWidget->setItem(i,2,new QTableWidgetItem(QString::number(r)));
-        ui->tableWidget->setItem(i++,3,new QTableWidgetItem(QString::number(t)));
+        ui->tableWidget->setItem(i,3,new QTableWidgetItem(QString::number(t)));
+        int oneDayCost = p*50+r*30+t*25;
+        ui->tableWidget->setItem(i,4,new QTableWidgetItem(QString::number(oneDayCost)));
+        summ+=oneDayCost;
+        i++;
     }
-    qDebug() << subfolders;
+    ui->label->setText(QString::number(summ));
+
+}
+
+QStringList MainWindow::getFiles(QString path, QRegExp re)
+{
+    QStringList out;
+    QDir dir(path);
+    QStringList subDirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    QStringList files= dir.entryList(QDir::Files);
+    if (subDirs.count() > 0){
+        foreach (QString subDir, subDirs) {
+            QString subPath = path+"/"+subDir;
+            files += getFiles(subPath,re);
+        }
+    }
+
+    foreach (QString file, files) {
+        if (re.exactMatch(file)) out+=file;
+    }
+
+    return out;
 }
