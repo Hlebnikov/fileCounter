@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QRegExp>
 #include <QDate>
+#include <QFile>
 
 namespace Ui {
 class MainWindow;

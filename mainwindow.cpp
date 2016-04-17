@@ -27,6 +27,13 @@ void MainWindow::on_pushButton_clicked()
     ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "Дата" << "Папка" << "Развороты" << "Портреты" << "Репортаж" << "Учителя" <<"Стоимость");
     getSubfolders(path);
 
+    QFile file(path+"/Ивайкина Ирина Петровна, учитель истории.JPG");
+    if (file.exists()) {
+        QFileInfo fInfo = QFileInfo(file);
+        qDebug() << fInfo.lastModified().date();
+    } else {
+        qDebug() << "oops!";
+    }
 }
 
 void MainWindow::on_action_Excel_triggered()
@@ -63,10 +70,7 @@ void MainWindow::getSubfolders(QString path)
     QDir dir(path);
     int subfoldersCount = dir.count()-2;
 
-
-//    portrait.setPatternSyntax(QRegExp::Wildcard);
-//    qDebug() << subfoldersCount;
-    QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Time);
     ui->tableWidget->setRowCount(dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).count()+1);
     int i=0;
     int summ=0;
@@ -122,8 +126,9 @@ QStringList MainWindow::getFiles(QString path, QRegExp re)
     }
 
     foreach (QString file, files) {
-        QFileInfo fileInfo(file);
-//        qDebug() << fileInfo.canonicalFilePath();
+        QFile f(path+"/"+file);
+        QFileInfo fileInfo(f);
+        qDebug() << fileInfo.lastModified().date().month();
         if (re.exactMatch(file) /*&& created.date().month() == 2*/) out+=file;
     }
 
