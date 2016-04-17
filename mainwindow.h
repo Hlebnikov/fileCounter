@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QRegExp>
+#include <QDate>
 
 namespace Ui {
 class MainWindow;
@@ -21,11 +22,15 @@ public:
 
 public slots:
     void on_pushButton_clicked();
+    void on_action_Excel_triggered();
 
 private:
+    QString path;
+
     Ui::MainWindow *ui;
     void getSubfolders(QString path);
     QStringList getFiles(QString path, QRegExp re);
+    int getPageCount(QString path);
 };
 
 #endif // MAINWINDOW_H

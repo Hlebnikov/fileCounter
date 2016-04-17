@@ -18,3 +18,5 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
+
+include(plugin/qtxlsx/src/xlsx/qtxlsx.pri)
