@@ -3,8 +3,12 @@
 #include "xlsxdocument.h"
 
 const QRegExp teacher("[^A-Z0-9]*[,][^A-Z0-9]*(jpg|jpeg)",Qt::CaseInsensitive);
-const QRegExp portrait("[^A-Z0-9,]*(jpg|jpeg)",Qt::CaseInsensitive);
+const QRegExp portrait("([^A-Z0-9,]*[()]*)(jpg|jpeg)",Qt::CaseInsensitive);
 const QRegExp report("[0-9.]*(jpg|jpeg)",Qt::CaseInsensitive);
+
+const int portraitCost = 55;
+const int reportCost = 17;
+const int teacherCost = 15;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,19 +25,19 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     path = QFileDialog::getExistingDirectory(this,"Папка со съемками");
+
+//    MonthDialog *monthDialog  = new MonthDialog();
+//    monthDialog->show();
 //    path = "D:/Рабочая/Февраль";
     ui->tableWidget->clear();
     ui->tableWidget->setColumnCount(7);
     ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "Дата" << "Папка" << "Развороты" << "Портреты" << "Репортаж" << "Учителя" <<"Стоимость");
+//    QFileInfo mainDirecroryInfo(path);
+//    mainMonth = mainDirecroryInfo.created().date().month();
+//    qDebug() << mainMonth;
     getSubfolders(path);
 
-    QFile file(path+"/Ивайкина Ирина Петровна, учитель истории.JPG");
-    if (file.exists()) {
-        QFileInfo fInfo = QFileInfo(file);
-        qDebug() << fInfo.lastModified().date();
-    } else {
-        qDebug() << "oops!";
-    }
+
 }
 
 void MainWindow::on_action_Excel_triggered()
@@ -68,12 +72,12 @@ void MainWindow::getSubfolders(QString path)
 {
     ui->pushButton->setText(path);
     QDir dir(path);
-    int subfoldersCount = dir.count()-2;
-
     QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Time);
     ui->tableWidget->setRowCount(dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).count()+1);
-    int i=0;
+    int i=subfolders.count()-1;
     int summ=0;
+
+    qDebug() << countMatchedFiles(path,portrait);
 
     QSet<QDate> dates;
 
@@ -82,54 +86,53 @@ void MainWindow::getSubfolders(QString path)
         int pages = getPageCount(subdir);
         QFileInfo fileInfo(subdir);
         QDate createDate = fileInfo.created().date();
-//        qDebug() << createDate.toString();
         dates << createDate;
         ui->tableWidget->setItem(i,0, new QTableWidgetItem(createDate.toString(Qt::SystemLocaleShortDate)));
-//        qDebug() << pages;
         ui->tableWidget->setItem(i,1,new QTableWidgetItem(subfolder));
         ui->tableWidget->setItem(i,2,new QTableWidgetItem(QString::number(pages)));
-//        qDebug() << subdir.count()-2;
-        QStringList portraits = getFiles(path+"/"+subfolder,portrait);
-        QStringList teachers = getFiles(path+"/"+subfolder,teacher);
-        QStringList reports = getFiles(path+"/"+subfolder,report);
-        int p = portraits.count();
-        int r = reports.count();
-        int t = teachers.count();
-        ui->tableWidget->setItem(i,3,new QTableWidgetItem(QString::number(p)));
-        ui->tableWidget->setItem(i,4,new QTableWidgetItem(QString::number(r)));
-        ui->tableWidget->setItem(i,5,new QTableWidgetItem(QString::number(t)));
-        int oneDayCost = p*55+r*17+t*15;
+
+        int portraitCount = countMatchedFiles(path+"/"+subfolder,portrait);
+        int reportCount = countMatchedFiles(path+"/"+subfolder,report);
+        int teacherCount = countMatchedFiles(path+"/"+subfolder,teacher);
+        ui->tableWidget->setItem(i,3,new QTableWidgetItem(QString::number(portraitCount)));
+        ui->tableWidget->setItem(i,4,new QTableWidgetItem(QString::number(reportCount)));
+        ui->tableWidget->setItem(i,5,new QTableWidgetItem(QString::number(teacherCount)));
+        int oneDayCost = portraitCount*portraitCost+reportCount*reportCost+teacherCount*teacherCost;
         ui->tableWidget->setItem(i,6,new QTableWidgetItem(QString::number(oneDayCost)));
         summ+=oneDayCost;
-        i++;
+        i--;
     }
-    qDebug() << "Dates" << dates;
+//    qDebug() << "Dates" << dates;
     ui->label_4->setText(QString::number(dates.count()));
     ui->label_6->setText(QString::number(ui->tableWidget->rowCount()-1));
     ui->label->setText(QString::number(summ));
-
 }
 
-QStringList MainWindow::getFiles(QString path, QRegExp re)
+int MainWindow::countMatchedFiles(QString path, QRegExp re)
 {
-    QStringList out;
+    int out = 0;
     QDir dir(path);
     QStringList subDirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    QStringList files= dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
+    QFileInfoList infos = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+
     if (subDirs.count() > 0){
         foreach (QString subDir, subDirs) {
             if (subDir != "корзина") {
                 QString subPath = path+"/"+subDir;
-                files += getFiles(subPath,re);
+                out += countMatchedFiles(subPath,re);
             }
         }
     }
 
-    foreach (QString file, files) {
-        QFile f(path+"/"+file);
-        QFileInfo fileInfo(f);
-        qDebug() << fileInfo.lastModified().date().month();
-        if (re.exactMatch(file) /*&& created.date().month() == 2*/) out+=file;
+    foreach (QFileInfo info, infos) {
+        if (re.exactMatch(info.fileName()) && info.created().date().month() == 4) {
+            qDebug() << info.fileName();
+            out++;
+            qDebug() << info.created().date();
+            qDebug() << info.lastModified().date();
+            qDebug() << info.lastRead().date();
+            qDebug() << info.
+        }
     }
 
     return out;
@@ -144,5 +147,5 @@ int MainWindow::getPageCount(QString path)
     foreach (QString folder, folders) {
         if (folder.contains("разворот")) count++;
     }
-    return count>0 ? count-1 : count;
+    return count > 0 ? count-1 : count;
 }

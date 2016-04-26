@@ -30,8 +30,9 @@ private:
 
     Ui::MainWindow *ui;
     void getSubfolders(QString path);
-    QStringList getFiles(QString path, QRegExp re);
+    int countMatchedFiles(QString path, QRegExp re);
     int getPageCount(QString path);
+    int mainMonth;
 };
 
 #endif // MAINWINDOW_H
