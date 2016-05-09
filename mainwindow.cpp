@@ -126,12 +126,7 @@ int MainWindow::countMatchedFiles(QString path, QRegExp re)
 
     foreach (QFileInfo info, infos) {
         if (re.exactMatch(info.fileName()) && info.created().date().month() == 4) {
-            qDebug() << info.fileName();
             out++;
-            qDebug() << info.created().date();
-            qDebug() << info.lastModified().date();
-            qDebug() << info.lastRead().date();
-            qDebug() << info.
         }
     }
 

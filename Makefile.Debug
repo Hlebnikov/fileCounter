@@ -361,6 +361,9 @@ debug/moc_mainwindow.cpp: D:/Qt/5.5/mingw492_32/include/QtWidgets/QMainWindow \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qdialog.h \
 		D:/Qt/5.5/mingw492_32/include/QtCore/QDebug \
 		D:/Qt/5.5/mingw492_32/include/QtCore/QRegExp \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QDate \
+		D:/Qt/5.5/mingw492_32/include/QtCore/qdatetime.h \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QFile \
 		mainwindow.h
 	'D:\Qt\5.5\mingw492_32\bin\moc.exe' $(DEFINES) -D__GNUC__ -DWIN32 -ID:/Qt/5.5/mingw492_32/mkspecs/win32-g++ -IC:/Users/lexus/Documents/filecounter -IC:/Users/lexus/Documents/filecounter/plugin/qtxlsx/src/xlsx -ID:/Qt/5.5/mingw492_32/include -ID:/Qt/5.5/mingw492_32/include/QtWidgets -ID:/Qt/5.5/mingw492_32/include/QtGui/5.5.0 -ID:/Qt/5.5/mingw492_32/include/QtGui/5.5.0/QtGui -ID:/Qt/5.5/mingw492_32/include/QtGui -ID:/Qt/5.5/mingw492_32/include/QtANGLE -ID:/Qt/5.5/mingw492_32/include/QtCore mainwindow.h -o debug/moc_mainwindow.cpp
 
@@ -593,6 +596,9 @@ debug/main.o: main.cpp mainwindow.h \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qdialog.h \
 		D:/Qt/5.5/mingw492_32/include/QtCore/QDebug \
 		D:/Qt/5.5/mingw492_32/include/QtCore/QRegExp \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QDate \
+		D:/Qt/5.5/mingw492_32/include/QtCore/qdatetime.h \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QFile \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/QApplication \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qapplication.h \
 		D:/Qt/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
@@ -716,6 +722,9 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qdialog.h \
 		D:/Qt/5.5/mingw492_32/include/QtCore/QDebug \
 		D:/Qt/5.5/mingw492_32/include/QtCore/QRegExp \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QDate \
+		D:/Qt/5.5/mingw492_32/include/QtCore/qdatetime.h \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QFile \
 		ui_mainwindow.h \
 		D:/Qt/5.5/mingw492_32/include/QtCore/QVariant \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/QAction \
@@ -755,9 +764,10 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qrubberband.h \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/QLabel \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qlabel.h \
+		D:/Qt/5.5/mingw492_32/include/QtWidgets/QMenu \
+		D:/Qt/5.5/mingw492_32/include/QtWidgets/qmenu.h \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/QMenuBar \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qmenubar.h \
-		D:/Qt/5.5/mingw492_32/include/QtWidgets/qmenu.h \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/QPushButton \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qpushbutton.h \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qabstractbutton.h \
@@ -766,10 +776,28 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/QTableWidget \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qtablewidget.h \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/qtableview.h \
-		D:/Qt/5.5/mingw492_32/include/QtWidgets/QToolBar \
-		D:/Qt/5.5/mingw492_32/include/QtWidgets/qtoolbar.h \
 		D:/Qt/5.5/mingw492_32/include/QtWidgets/QVBoxLayout \
-		D:/Qt/5.5/mingw492_32/include/QtWidgets/QWidget
+		D:/Qt/5.5/mingw492_32/include/QtWidgets/QWidget \
+		plugin/qtxlsx/src/xlsx/xlsxdocument.h \
+		plugin/qtxlsx/src/xlsx/xlsxglobal.h \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QtGlobal \
+		plugin/qtxlsx/src/xlsx/xlsxformat.h \
+		D:/Qt/5.5/mingw492_32/include/QtGui/QFont \
+		D:/Qt/5.5/mingw492_32/include/QtGui/QColor \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QByteArray \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QList \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QExplicitlySharedDataPointer \
+		plugin/qtxlsx/src/xlsx/xlsxworksheet.h \
+		plugin/qtxlsx/src/xlsx/xlsxabstractsheet.h \
+		plugin/qtxlsx/src/xlsx/xlsxabstractooxmlfile.h \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QStringList \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QSharedPointer \
+		plugin/qtxlsx/src/xlsx/xlsxcell.h \
+		plugin/qtxlsx/src/xlsx/xlsxcellrange.h \
+		plugin/qtxlsx/src/xlsx/xlsxcellreference.h \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QMap \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QPointF \
+		D:/Qt/5.5/mingw492_32/include/QtCore/QObject
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/mainwindow.o mainwindow.cpp
 
 debug/xlsxdocpropscore.o: plugin/qtxlsx/src/xlsx/xlsxdocpropscore.cpp plugin/qtxlsx/src/xlsx/xlsxdocpropscore_p.h \
