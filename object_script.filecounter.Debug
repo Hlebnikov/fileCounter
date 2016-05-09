@@ -1,6 +1,7 @@
 INPUT(
 ./debug/main.o
 ./debug/mainwindow.o
+./debug/qexifimageheader_original.o
 ./debug/xlsxdocpropscore.o
 ./debug/xlsxdocpropsapp.o
 ./debug/xlsxrelationships.o

@@ -8,6 +8,7 @@
 #include <QRegExp>
 #include <QDate>
 #include <QFile>
+#include "qexifimageheader_original.h"
 
 namespace Ui {
 class MainWindow;

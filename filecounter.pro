@@ -13,9 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    qexifimageheader_original.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    qexifimageheader_original.h
 
 FORMS    += mainwindow.ui
 

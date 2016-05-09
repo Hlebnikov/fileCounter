@@ -1,6 +1,7 @@
 INPUT(
 ./release/main.o
 ./release/mainwindow.o
+./release/qexifimageheader_original.o
 ./release/xlsxdocpropscore.o
 ./release/xlsxdocpropsapp.o
 ./release/xlsxrelationships.o

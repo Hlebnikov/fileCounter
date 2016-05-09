@@ -72,7 +72,7 @@ void MainWindow::getSubfolders(QString path)
 {
     ui->pushButton->setText(path);
     QDir dir(path);
-    QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Time);
+    QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot); //, QDir::Time
     ui->tableWidget->setRowCount(dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).count()+1);
     int i=subfolders.count()-1;
     int summ=0;
@@ -125,8 +125,11 @@ int MainWindow::countMatchedFiles(QString path, QRegExp re)
     }
 
     foreach (QFileInfo info, infos) {
-        if (re.exactMatch(info.fileName()) && info.created().date().month() == 4) {
-            out++;
+        if (re.exactMatch(info.fileName()) && info.lastModified().date().month() == 4) {
+            QExifImageHeader header = QExifImageHeader(info.absoluteFilePath());
+            QString copyright = header.value(QExifImageHeader::Copyright).toString();
+            QDateTime date = header.value(QExifImageHeader::DateTimeDigitized).toDateTime();
+            if ((copyright == "hlebnikov-a.ru") && (date.date().month()==4)) out++;
         }
     }
 
